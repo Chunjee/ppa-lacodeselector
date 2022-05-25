@@ -1,0 +1,40 @@
+{
+  "possibleStringsL": [
+    "L120: Analysis/Strategy",
+    "L160: Settlement/Non-Binding ADR",
+    "L210: Pleadings",
+    "L230: Court Mandated Conferences",
+    "L320: Document Production",
+    "L330: Depositions",
+    "L340: Expert Discovery",
+    "L440: Other Trial Preparation and Support",
+    "L450: Trial and Hearing Attendance",
+    "L460: Post-Trial Motions and Submissions",
+    "L520: Appellate Briefs"
+  ],
+
+//   json file
+  "possibleStringsA": {
+    "A101": "A101: Plan and prepare for",
+    "A102": "A102: Research",
+    "A103": "A103: Draft/Revise",
+    "A104": "A104: Review/Analyze",
+    "A106": "A106: Communicate (with client)",
+    "A107": "A107: Communicate (opponent/other outside counsel)",
+    "A108": "A108: Communicate (other external)",
+    "A109": "A109: Appear for/Attend"
+},
+
+"shortCutAmap": {
+    "review of authorities": "A102",
+    "prepare to": "A101",
+    "review Labor Code": "A102",
+    "review law": "A102",
+    "review rules": "A102",
+    "draft": "A103",
+    "prepare settlement": "A103",
+    "prepare minutes": "A103",
+    "prepare five": "A103",
+    "prepare pretrial conference": "A103"
+  }
+}
