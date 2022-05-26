@@ -21,16 +21,8 @@ if (JSON.test(memoryFile)) {
 } else {
 	msgbox, "Could not read " A_ScriptDir "\settings.json or it isn't valid JSON!`nApp will quit"
 }
+return
 
-; msgbox, % selectBestCode(settings.shortCutLmap, settings.possibleStringsL, "Applicant's depot ")
-; ; => "L330: Depositions"
-; msgbox, % selectBestCode(settings.shortCutLmap, settings.possibleStringsL, "L340: ExpertDiscover")
-; ; => "L340: Expert Discovery"
-
-; msgbox, % selectBestCode(settings.shortCutAmap, settings.possibleStringsA, "prepare five ")
-; ; => "A103: Draft/Revise"
-; msgbox, % selectBestCode(settings.shortCutAmap, settings.possibleStringsA, "A104: Revie")
-; ; => "A104: Review/Analyze"
 
 
 ;------------------------------------------------------------------------------
