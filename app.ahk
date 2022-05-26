@@ -27,8 +27,9 @@ if (JSON.test(memoryFile)) {
 	msgbox, "Could not read " A_ScriptDir "\settings.json or it isn't valid JSON!`nApp will quit"
 }
 
-msgbox, % bestLCode := selectLCode(settings, "Applicant's depot ")
-; => L330: Depositions
+bestLCode := selectLCode(settings, "L340: ExpertDiscover")
+msgbox, % bestLCode
+; => "L340: Expert Discovery"
 
 
 #IfWinActive ahk_exe brave.exe
@@ -62,12 +63,11 @@ selectLCode(param_settings, param_input) {
 	bestShortcut := stringsimilarity.findBestMatch(param_input, biga.keys(param_settings.shortCutLMap)).bestMatch
 	if (bestShortcut.rating > .80) {
 		key := param_settings.shortCutLMap[bestShortcut.target]
-		biga.print(param_settings.shortCutLMap)
 		return param_settings.possibleStringsL[key]
 	}
-	bestMatch := stringsimilarity.findBestMatch(param_input, param_settings.possibleStringsA).bestMatch
+	bestMatch := stringsimilarity.findBestMatch(param_input, param_settings.possibleStringsL).bestMatch
 	if (bestMatch.rating > .80) {
-		return param_settings.possibleStringsL[bestMatch.target]
+		return bestMatch.target
 	} else {
 		return "No match found"
 	}
