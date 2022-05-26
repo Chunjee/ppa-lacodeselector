@@ -8,15 +8,10 @@ SetBatchLines, -1
 ;#Include %A_ScriptDir%\CbAutoComplete-master\CbAutoComplete.ahk
 ; menu, tray, icon, % a_scriptDir "\Merus.ico"
 
-FileGetTime ScriptStartModTime, % A_ScriptFullPath
-SetTimer CheckScriptUpdate, 2000000, 0x7FFFFFFF ; 200 ms, highest priority
-
 ;------------------------------------------------------------------------------
-; Script
+; Setup
 ;------------------------------------------------------------------------------
 A := new biga() ; requires https://www.npmjs.com/package/biga.ahk
-
-
 
 ; read all A shortcuts from file
 fileread, memoryFile, % A_ScriptDir "\settings.json"
@@ -32,6 +27,17 @@ if (JSON.test(memoryFile)) {
 ; msgbox, % selectBestCode(settings.shortCutLmap, settings.possibleStringsL, "L340: ExpertDiscover")
 ; ; => "L340: Expert Discovery"
 
+; msgbox, % selectBestCode(settings.shortCutAmap, settings.possibleStringsA, "prepare five ")
+; ; => "A103: Draft/Revise"
+; msgbox, % selectBestCode(settings.shortCutAmap, settings.possibleStringsA, "A104: Revie")
+; ; => "A104: Review/Analyze"
+
+
+;------------------------------------------------------------------------------
+; Script
+;------------------------------------------------------------------------------
+FileGetTime ScriptStartModTime, % A_ScriptFullPath
+SetTimer CheckScriptUpdate, 2000000, 0x7FFFFFFF ; 200 ms, highest priority
 
 #IfWinActive ahk_exe brave.exe
 F1::	; Search for billing code
@@ -62,7 +68,7 @@ selectBestCode(param_shortcuts, param_codes, param_input) {
 		return param_codes[key]
 	}
 	bestMatch := stringsimilarity.findBestMatch(param_input, param_codes).bestMatch
-	if (bestMatch.rating > .80) {
+	if (bestMatch.rating > .50) {
 		return bestMatch.target
 	} else {
 		return "No match found"
