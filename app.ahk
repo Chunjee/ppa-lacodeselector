@@ -19,7 +19,7 @@ fileread, memoryFile, % A_ScriptDir "\settings.json"
 if (JSON.test(memoryFile)) {
 	settings := JSON.parse(memoryFile)
 } else {
-	msgbox, "Could not read " A_ScriptDir "\settings.json or it isn't valid JSON!`nApp will quit"
+	msgbox, % "Could not read " A_ScriptDir "\settings.json or it isn't valid JSON!`nApp will quit"
 }
 return
 
