@@ -27,22 +27,18 @@ if (JSON.test(memoryFile)) {
 	msgbox, "Could not read " A_ScriptDir "\settings.json or it isn't valid JSON!`nApp will quit"
 }
 
-bestLCode := selectLCode(settings, "L340: ExpertDiscover")
-msgbox, % bestLCode
-; => "L340: Expert Discovery"
+; msgbox, % selectBestCode(settings.shortCutLmap, settings.possibleStringsL, "Applicant's depot ")
+; ; => "L330: Depositions"
+; msgbox, % selectBestCode(settings.shortCutLmap, settings.possibleStringsL, "L340: ExpertDiscover")
+; ; => "L340: Expert Discovery"
 
 
 #IfWinActive ahk_exe brave.exe
 F1::	; Search for billing code
 InputBox, UserInput, Phase of Litigation (L code)
-bestMatchL := selectLCode(settings, UserInput)
+bestMatchL := selectBestCode(settings.shortCutLmap, settings.possibleStringsL, UserInput)
 InputBox, UserInput, Task type (A code)
-; check if shortcut was entered
-bestShortcut := stringsimilarity.findBestMatch(settings.shortCutAMap.keys(), UserInput).bestMatch
-if (bestShortcut.rating > .80) {
-	UserInput := settings.shortCutAMap[bestShortcut.target]
-}
-bestMatchA := stringsimilarity.simpleBestMatch(UserInput, settings.possibleStringsA)
+bestMatchA := selectBestCode(settings.shortCutAmap, settings.possibleStringsA, UserInput)
 bestMatch := bestMatchL . bestMatchA
 msgbox, % "closest matching input:`n" bestMatch "`n`nPress F2 when ready to send"
 OldClip := ClipboardAll
@@ -58,14 +54,14 @@ return
 ;------------------------------------------------------------------------------
 ; functions
 ;------------------------------------------------------------------------------
-selectLCode(param_settings, param_input) {
+selectBestCode(param_shortcuts, param_codes, param_input) {
 	; check if shortcut was entered
-	bestShortcut := stringsimilarity.findBestMatch(param_input, biga.keys(param_settings.shortCutLMap)).bestMatch
+	bestShortcut := stringsimilarity.findBestMatch(param_input, biga.keys(param_shortcuts)).bestMatch
 	if (bestShortcut.rating > .80) {
-		key := param_settings.shortCutLMap[bestShortcut.target]
-		return param_settings.possibleStringsL[key]
+		key := param_shortcuts[bestShortcut.target]
+		return param_codes[key]
 	}
-	bestMatch := stringsimilarity.findBestMatch(param_input, param_settings.possibleStringsL).bestMatch
+	bestMatch := stringsimilarity.findBestMatch(param_input, param_codes).bestMatch
 	if (bestMatch.rating > .80) {
 		return bestMatch.target
 	} else {
