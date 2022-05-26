@@ -29,7 +29,7 @@ return
 ; Script
 ;------------------------------------------------------------------------------
 FileGetTime ScriptStartModTime, % A_ScriptFullPath
-SetTimer CheckScriptUpdate, 2000000, 0x7FFFFFFF ; 200 ms, highest priority
+SetTimer CheckScriptUpdate, % 30 * 60 * 1000 ; every 30 mins
 
 #IfWinActive ahk_exe brave.exe
 F1::	; Search for billing code
