@@ -8,34 +8,33 @@ SetBatchLines, -1
 ;#Include %A_ScriptDir%\CbAutoComplete-master\CbAutoComplete.ahk
 ; menu, tray, icon, % a_scriptDir "\Merus.ico"
 
-FileGetTime ScriptStartModTime, %A_ScriptFullPath%
-SetTimer CheckScriptUpdate, 200, 0x7FFFFFFF ; 200 ms, highest priority
+FileGetTime ScriptStartModTime, % A_ScriptFullPath
+SetTimer CheckScriptUpdate, 2000000, 0x7FFFFFFF ; 200 ms, highest priority
 
 ;------------------------------------------------------------------------------
 ; Script
 ;------------------------------------------------------------------------------
 A := new biga() ; requires https://www.npmjs.com/package/biga.ahk
 
-arr := {"hello": "world"}
-arr["hellO"] := "howdy"
-biga.print(arr)
-return
+
+
 ; read all A shortcuts from file
 fileread, memoryFile, % A_ScriptDir "\settings.json"
 ; parse into a variable, because right now its just a big string
 if (JSON.test(memoryFile)) {
 	settings := JSON.parse(memoryFile)
 } else {
-	msgbox, "Could not read " A_ScriptDir "\map.json or it isn't valid JSON!`nApp will quit"
+	msgbox, "Could not read " A_ScriptDir "\settings.json or it isn't valid JSON!`nApp will quit"
 }
 
-msgbox, % A.print(settings)
+msgbox, % bestLCode := selectLCode(settings, "Applicant's depot ")
+; => L330: Depositions
+
 
 #IfWinActive ahk_exe brave.exe
-
 F1::	; Search for billing code
 InputBox, UserInput, Phase of Litigation (L code)
-bestMatchL := stringsimilarity.simpleBestMatch(UserInput, settings.possibleStringsL)
+bestMatchL := selectLCode(settings, UserInput)
 InputBox, UserInput, Task type (A code)
 ; check if shortcut was entered
 bestShortcut := stringsimilarity.findBestMatch(settings.shortCutAMap.keys(), UserInput).bestMatch
@@ -55,6 +54,24 @@ sendInput, % bestMatch
 Clipboard := Old
 return
 
+;------------------------------------------------------------------------------
+; functions
+;------------------------------------------------------------------------------
+selectLCode(param_settings, param_input) {
+	; check if shortcut was entered
+	bestShortcut := stringsimilarity.findBestMatch(param_input, biga.keys(param_settings.shortCutLMap)).bestMatch
+	if (bestShortcut.rating > .80) {
+		key := param_settings.shortCutLMap[bestShortcut.target]
+		biga.print(param_settings.shortCutLMap)
+		return param_settings.possibleStringsL[key]
+	}
+	bestMatch := stringsimilarity.findBestMatch(param_input, param_settings.possibleStringsA).bestMatch
+	if (bestMatch.rating > .80) {
+		return param_settings.possibleStringsL[bestMatch.target]
+	} else {
+		return "No match found"
+	}
+}
 
 #IfWinActive
 
